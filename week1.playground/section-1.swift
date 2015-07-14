@@ -2,25 +2,7 @@
 
 import Cocoa
 
-func hammingWeight(value:Int) -> (String, Int) {
-    var binary = ""
-    var param = value
-    var count = 0
-    while param / 2 > 0 {
-        let r = param % 2
-        binary = String(r) + binary
-        if r == 1 {count++}
-        param = param / 2
-    }
-    
-    if param == 1 {
-        return (String(param) + binary, count + 1)
-    }
-    else {
-        return (binary, count)
-    }
-}
-
+// Hamming Weight - 상수만 사용하도록 바꿔보았습니다.
 func hammingWeightFunctional(val:Int) -> (String, Int) {
     if val == 0 {
         return ("0", 0)
@@ -39,37 +21,30 @@ func hammingWeightFunctional(val:Int) -> (String, Int) {
     }
 }
 
-let result = hammingWeight(11);
-println(result.0)
-println(result.1)
 let resultFuctional = hammingWeightFunctional(11);
 
 func makePascalTriangle (numOfRows:Int) -> [[Int]] {
+    func makeRow(row:[Int]) -> [Int] {
+        var result:[Int] = []
+        var temp:[Int] = row
+        temp.insert(0, atIndex:0)
+        temp.append(0)
+        var i = 0
+        for i in 1 ..< temp.count {
+            result.append(temp[i-1] + temp[i])
+        };
+        return result;
+    }
+
     if numOfRows == 1 {
         return [[1]]
     }else {
-        var temp : [Int];
-        var prev : [[Int]] = []
-        prev = makePascalTriangle(numOfRows-1)
-        println(prev)
-        var prevRow = prev[prev.count - 1]
-        temp  = makeRow(prevRow)
+        var prev : [[Int]] = makePascalTriangle(numOfRows-1)
+        let prevRow = prev[prev.count - 1]
+        let temp : [Int] = makeRow(prevRow)
         prev.append(temp)
-        return (prev)
+        return prev
     }
-}
-
-func makeRow(row:[Int]) -> [Int] {
-    var result:[Int] = []
-    var temp:[Int] = row
-    temp.insert(0, atIndex:0)
-    temp.append(0)
-    println(temp)
-    var i = 0
-    for i in 1 ..< temp.count {
-        result.append(temp[i-1] + temp[i])
-    };
-    return result;
 }
 
 makePascalTriangle(4)
